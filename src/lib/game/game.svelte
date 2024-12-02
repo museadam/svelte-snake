@@ -164,7 +164,7 @@
 
 		<div class="score">Score: {score}</div>
 	{/if}
-	<Info />
+	<!-- <Info /> -->
 </div>
 
 <style>
