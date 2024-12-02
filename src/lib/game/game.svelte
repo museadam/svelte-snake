@@ -168,6 +168,11 @@
 </div>
 
 <style>
+	:global(body) {
+		margin: 0;
+		height: 100%;
+		overflow: hidden;
+	}
 	.game-container {
 		display: flex;
 		flex-direction: column;
