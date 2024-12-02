@@ -168,10 +168,8 @@
 </div>
 
 <style>
-	:global(body) {
-		margin: 0;
-		height: 100%;
-		overflow: hidden;
+	:global(html) {
+		overscroll-behavior: contain;
 	}
 	.game-container {
 		display: flex;
