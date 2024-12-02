@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onMount, onDestroy } from 'svelte';
-
+	import Info from './info.svelte';
+	import { handleTouchStart, handleTouchEnd } from '../swipe/index.svelte';
 	// Game constants
 	const GRID_SIZE = 20;
 	const CELL_SIZE = 20;
@@ -43,7 +44,7 @@
 		}
 
 		// Self collision
-		if (snake.some(segment => segment.x === head.x && segment.y === head.y)) {
+		if (snake.some((segment) => segment.x === head.x && segment.y === head.y)) {
 			gameOver = true;
 			gameStarted = false;
 			return;
@@ -72,10 +73,7 @@
 		const newDirection = DIRECTIONS[event.key as keyof typeof DIRECTIONS];
 		if (newDirection) {
 			// Prevent 180-degree turns
-			if (
-				(newDirection.x !== -direction.x) || 
-				(newDirection.y !== -direction.y)
-			) {
+			if (newDirection.x !== -direction.x || newDirection.y !== -direction.y) {
 				direction = newDirection;
 			}
 		}
@@ -108,6 +106,18 @@
 	});
 </script>
 
+{#if gameStarted}
+	<div
+		class="swipe-background"
+		role="button"
+		tabindex="0"
+		ontouchstart={handleTouchStart}
+		ontouchend={(e) => {
+			const ret = handleTouchEnd(e);
+			handleKeydown({ key: ret });
+		}}
+	></div>
+{/if}
 <div class="game-container">
 	{#if !gameStarted}
 		<div class="start-screen">
@@ -118,42 +128,43 @@
 					<p>Your Score: {score}</p>
 				</div>
 			{/if}
-			<button on:click={startGame}>
+			<button onclick={startGame}>
 				{gameOver ? 'Play Again' : 'Start Game'}
 			</button>
 			<p>Use Arrow Keys to Control</p>
 		</div>
 	{/if}
-	
+
 	{#if gameStarted}
-		<div 
-			class="game-board" 
+		<div
+			class="game-board"
 			style="
 				width: {GRID_SIZE * CELL_SIZE}px; 
 				height: {GRID_SIZE * CELL_SIZE}px;
 			"
 		>
 			{#each snake as segment}
-				<div 
-					class="snake-segment" 
+				<div
+					class="snake-segment"
 					style="
 						left: {segment.x * CELL_SIZE}px; 
 						top: {segment.y * CELL_SIZE}px;
 					"
 				></div>
 			{/each}
-			
-			<div 
-				class="food" 
+
+			<div
+				class="food"
 				style="
 					left: {food.x * CELL_SIZE}px; 
 					top: {food.y * CELL_SIZE}px;
 				"
 			></div>
 		</div>
-		
+
 		<div class="score">Score: {score}</div>
 	{/if}
+	<Info />
 </div>
 
 <style>
@@ -171,7 +182,7 @@
 		background-color: white;
 		padding: 30px;
 		border-radius: 10px;
-		box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+		box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 	}
 
 	.game-over-dialog {
@@ -216,5 +227,12 @@
 	.score {
 		margin-top: 10px;
 		font-size: 18px;
+	}
+	.swipe-background {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
 	}
 </style>
