@@ -168,9 +168,7 @@
 </div>
 
 <style>
-	:global(html) {
-		overscroll-behavior: contain;
-	}
+
 	.game-container {
 		display: flex;
 		flex-direction: column;
