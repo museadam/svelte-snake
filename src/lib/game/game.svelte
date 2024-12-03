@@ -112,7 +112,7 @@
 		role="button"
 		tabindex="0"
 		ontouchstart={handleTouchStart}
-		ontouchend={(e) => {
+		ontouchmove={(e) => {
 			const ret = handleTouchEnd(e);
 			handleKeydown({ key: ret });
 		}}
@@ -168,14 +168,12 @@
 </div>
 
 <style>
-
 	.game-container {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
 		height: 100vh;
-		background-color: #f0f0f0;
 	}
 
 	.start-screen {

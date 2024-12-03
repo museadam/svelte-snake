@@ -14,6 +14,7 @@
 		overflow: hidden;
 		min-height: 100vh;
 		margin: 0;
+		background-color: #f0f0f0;
 	}
 	main {
 		flex: 1;
